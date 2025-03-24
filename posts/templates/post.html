@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+    <h1>{{ post_dict.post_title }}</h1>
+    
+    <!-- بخش نمایش تگ‌ها -->
+    <div class="post-tags">
+        {% for tag in post_dict.tags.all %}
+        <span class="tag"><a href="{% url 'tag' tag.id %}"> #{{ tag }} </a></span>
+        {% endfor %}
+    </div>
+    
+    <p>{{ post_dict.post_content }}</p>
+    
+    
+    <!-- فرم ارسال کامنت -->
+    {% if user.is_authenticated %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Comment</button>
+        </form>
+    {% else %}
+        <p>You must be logged in to comment.</p>
+    {% endif %}
+
+    <!-- بخش نمایش کامنت‌ها -->
+    <div class="comments-section">
+        <h3>Comments</h3>
+        {% for comment in comments %}
+            <div class="comment">
+                <strong>{{ comment.user.username }}</strong>
+                <p>{{ comment.Comment }}</p>
+            </div>
+        {% empty %}
+            <p>No comments yet. Be the first to comment!</p>
+        {% endfor %}
+    </div>
+{% endblock body %}
