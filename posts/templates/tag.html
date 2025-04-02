@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h1>Posts tagged with "{{ tag.name }}"</h1>
+
+    {% for post in posts %}
+        <div class="post">
+            <h2><a href="{% url 'post' post.id %}">{{ post.post_title }}</a></h2>
+            <p>{{ post.post_content|truncatewords:20 }}</p>
+        </div>
+    {% empty %}
+        <p>No posts found with this tag.</p>
+    {% endfor %}
+{% endblock body %}

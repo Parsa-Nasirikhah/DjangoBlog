@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block body %}
+<h1></h1>
+<div class="posts-container">
+    {% for post in posts %}
+    <div class="post-card">
+        <!-- تصویر پست -->
+        <img src="{{ post.post_image.url }}" class="post-image" alt="Post Image"
+             onerror="this.src='/static/default.jpg'">
+
+        <!-- عنوان پست -->
+        <a href="{% url 'post' post.id %}" class="post-title">{{ post.post_title }}</a>
+
+        <!-- نمایش خلاصه محتوا -->
+        <p class="post-content">{{ post.post_content|truncatewords:5 }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page={{page_obj.previous_page_number}}" class="page-btn">Previous</a>
+            <a href="?page={{page_obj.previous_page_number}}" class="page-number">{{page_obj.previous_page_number}}</a>
+        {% endif %}
+        <a href="#" class="page-number active">{{page_obj.number}}</a>
+        {% if page_obj.has_next %}
+            <a href="?page={{page_obj.next_page_number}}" class="page-number">{{page_obj.next_page_number}}</a>
+            <a href="?page={{page_obj.next_page_number}}" class="page-btn">Next</a>
+        {% endif %}
+    </div>
+
+{% endblock body %}
